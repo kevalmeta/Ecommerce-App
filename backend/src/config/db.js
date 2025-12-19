@@ -9,5 +9,4 @@ export const connectDB = async()=>{
     console.error("💥MONGODB connection error")
     process.exit(1)//exit code  means failure, and 0 is success
   }
-
 }
