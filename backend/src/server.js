@@ -1,7 +1,7 @@
 import express from "express";
 import { clerkMiddleware } from "@clerk/express";
 import { serve } from "inngest/express";
-
+import cors from "cors";
 import { ENV } from "./config/env.js";
 import { connectDB } from "./config/db.js";
 import { functions, inngest } from "./config/inngest.js";
@@ -9,6 +9,7 @@ import { functions, inngest } from "./config/inngest.js";
 // ... existing imports
 
 const app = express();
+app.use(cors()); //
 
 // 1. Core middleware (JSON parsing must be first)
 app.use(express.json());
