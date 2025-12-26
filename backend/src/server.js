@@ -9,6 +9,8 @@ import { connectDB } from "./config/db.js";
 
 import { functions, inngest } from "./config/inngest.js";
 import adminRoutes from "./routes/admin.route.js";
+import userRoutes from "./routes/user.route.js";
+
 
 const app = express();
 app.use(cors()); //
@@ -24,6 +26,7 @@ app.use("/api/inngest", serve({
 app.get("/", (req, res) => res.send("Backend Server is Running Successfully!"));
 
 app.use("/api/admin",adminRoutes)
+app.use("/api/user",userRoutes)
 
 app.get("/api/health", (req, res) => res.status(200).json({ message: "Success" }));
 
