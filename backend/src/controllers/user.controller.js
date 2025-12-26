@@ -15,6 +15,10 @@ export async function addAddress(req, res) {
 
     const user = req.user;
 
+    if (!label || !fullName || !streetAddress || !city || !state || !zipCode || !phoneNumber) {
+      return res.status(400).json({ error: "All address fields are required" });
+    }
+
     //if this is set as default, unset all other defaults
     if (isDefault) {
       user.addAddress.forEach((addr) => (addr.isDefault = false));
@@ -154,7 +158,9 @@ export async function removeFromWishlist(req, res) {
 
 export async function getWishlist(req, res) {
   try {
-    const user = req.user;
+    // Populate the wishlist with product details
+    const user = await User.findById(req.user._id).populate("wishlist");
+    
     res.status(200).json({ wishlist: user.wishlist });
   } catch (error) {
     console.error("Error in getWishlist controller:", error);
