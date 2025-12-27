@@ -50,14 +50,25 @@ export async function createReview(req, res) {
       rating,
     });
 
-    //update product's rating
-    const product = await Product.findById(productId);
+    //update the product rating with atomic aggregation
     const reviews = await Review.find({ productId });
     const totalRatings = reviews.reduce((sum, rev) => sum + rev.rating, 0);
-    product.averageRating = totalRatings / reviews.length;
-    product.totalReviews = reviews.length;
-    await product.save();
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      {
+        averageRating: totalRatings / reviews.length,
+        totalReviews: reviews.length,
+      },
+      { new: true, runValidators: true }
+    );
 
+    if (!updatedProduct) {
+      await Review.findByIdAndDelete(review._id);
+      return res
+        .status(404)
+        .json({ error: "Product not found" });
+    }
+    
     res.status(201).json({ message: "Review created successfully", review });
   } catch (error) {
     console.error("Error in createReview controller:", error);
