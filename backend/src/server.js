@@ -10,6 +10,7 @@ import { connectDB } from "./config/db.js";
 import { functions, inngest } from "./config/inngest.js";
 import adminRoutes from "./routes/admin.route.js";
 import userRoutes from "./routes/user.route.js";
+import orderRoutes from "./routes/order.route.js";
 
 
 const app = express();
@@ -27,6 +28,7 @@ app.get("/", (req, res) => res.send("Backend Server is Running Successfully!"));
 
 app.use("/api/admin",adminRoutes)
 app.use("/api/user",userRoutes)
+app.use("/api/orders",orderRoutes)
 
 app.get("/api/health", (req, res) => res.status(200).json({ message: "Success" }));
 
