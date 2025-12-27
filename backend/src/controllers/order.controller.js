@@ -12,6 +12,7 @@ export async function createOrder(req, res) {
     }
 
     //validate product availability and stock here
+    //✅
     for(const item of orderItems) {
       const product = await Product.findById(item.product._id);
       if(!product) {
@@ -36,6 +37,7 @@ export async function createOrder(req, res) {
         $inc: { stock: -item.quantity }
       });
     }
+
     res.status(201).json({message: "Order created successfully", order});
   } catch (error) {
     console.error("Error in creating order controller:", error);
@@ -50,12 +52,16 @@ export async function getUserOrders(req, res) {
 
     //check if each order has been reviewed
 
+    const orderIds = orders.map(order => order._id);
+    const reviews = await Review.find({ order: { $in: orderIds } });
+    const reviewedOrderIds = new Set(reviews.map(review => review.order.toString()));
+
     const ordersWithReviewStatus = await Promise.all(
       orders.map(async (order) => {
         const review = await Review.findOne({ order:order.id})
         return {
           ...order.toObject(),
-          isReviewed: !!review,
+          hasReviewed: reviewedOrderIds.has(order._id.toString()),
         };
       })
     );
