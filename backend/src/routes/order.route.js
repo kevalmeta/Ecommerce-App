@@ -6,8 +6,5 @@ const router = Router();
 
 router.post("/",protectRoute,createOrder)
 router.get("/",protectRoute,getUserOrders)
-// router.get("/all",protectRoute,getAllOrders)
-// router.put("/:orderId/status",protectRoute,updateOrderStatus)
-
 
 export default router;

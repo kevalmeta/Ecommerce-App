@@ -73,7 +73,3 @@ export async function getUserOrders(req, res) {
     res.status(500).json({ message: "Internal Server Error" });
   }
 }
-
-// export async function getAllOrders(req, res) {}
-
-// export async function updateOrderStatus(req, res) {}
