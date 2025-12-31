@@ -8,7 +8,6 @@ export async function getCart(req, res) {
     );
     if (!cart) {
       const user = req.user;
-
       cart = await Cart.create({
         user: user._id,
         clerkId: user.clerkId,
@@ -38,9 +37,10 @@ export async function addToCart(req, res) {
     }
     let cart = await Cart.findOne({ clerkId: req.user.clerkId });
     if (!cart) {
+      const user = req.user;
       cart = await Cart.create({
-        user: req.user._id,
-        clerkId: req.user.clerkId,
+        user: user._id,
+        clerkId: user.clerkId,
         items: [],
       });
     }
