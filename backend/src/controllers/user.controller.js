@@ -160,7 +160,7 @@ export async function getWishlist(req, res) {
   try {
     // Populate the wishlist with product details
     const user = await User.findById(req.user._id).populate("wishlist");
-    
+
     res.status(200).json({ wishlist: user.wishlist });
   } catch (error) {
     console.error("Error in getWishlist controller:", error);
