@@ -68,7 +68,7 @@ export async function createReview(req, res) {
         .status(404)
         .json({ error: "Product not found" });
     }
-    
+
     res.status(201).json({ message: "Review created successfully", review });
   } catch (error) {
     console.error("Error in createReview controller:", error);
