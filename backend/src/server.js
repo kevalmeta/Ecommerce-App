@@ -23,7 +23,7 @@ app.use(express.json());
 
 app.use(cors({ origin: ENV.CLIENT_URL, credentials: true })); // credentials: true allows cookies to be sent along with requests
 app.use("/api/inngest", serve({
-  client: inngest,
+  client: inngest, 
   functions,
   serveHost: "https://ecommerce-app-57w5.onrender.com"
 }));
