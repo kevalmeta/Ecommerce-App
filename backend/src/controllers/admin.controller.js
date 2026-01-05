@@ -155,7 +155,7 @@ export async function getAllCustomers(_, res) {
 
 export async function getDashboardStats(_, res) {
   try {
-    const totalOrder = await Order.countDocuments();
+    const totalOrders = await Order.countDocuments();
 
     const revenueResult = await Order.aggregate([
       {
@@ -173,7 +173,7 @@ export async function getDashboardStats(_, res) {
 
     res.status(200).json({
       totalRevenue,
-      totalOrder,
+      totalOrders,
       totalCustomers,
       totalProducts,
     })
