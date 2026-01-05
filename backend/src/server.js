@@ -17,11 +17,21 @@ import cartRoutes from "./routes/cart.route.js";
 
 
 const app = express();
-app.use(cors()); //
 
 app.use(express.json());
 
-app.use(cors({ origin: ENV.CLIENT_URL, credentials: true })); // credentials: true allows cookies to be sent along with requests
+// app.use(cors({ origin: ENV.CLIENT_URL, credentials: true })); // credentials: true allows cookies to be sent along with requests
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://ecommerce-app-black-three-13.vercel.app",
+    ],
+    credentials: true,
+  })
+);
+
 app.use("/api/inngest", serve({
   client: inngest, 
   functions,
