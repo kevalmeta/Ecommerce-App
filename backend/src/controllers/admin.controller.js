@@ -168,6 +168,7 @@ export async function getDashboardStats(_, res) {
 
     const totalRevenue = revenueResult[0]?.total || 0;
     const totalCustomers = await User.countDocuments();
+  
     const totalProducts = await Product.countDocuments();
 
 
