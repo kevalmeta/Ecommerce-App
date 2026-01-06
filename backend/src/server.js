@@ -22,6 +22,8 @@ app.use(express.json());
 
 // app.use(cors({ origin: ENV.CLIENT_URL, credentials: true })); // credentials: true allows cookies to be sent along with requests
 
+app.use(clerkMiddleware());
+
 app.use(
   cors({
     origin: [
@@ -50,7 +52,6 @@ app.use("/api/cart", cartRoutes)
 app.get("/api/health", (req, res) => res.status(200).json({ message: "Success" }));
 
 
-app.use(clerkMiddleware());
 
 const startServer = async () => {
   await connectDB();
