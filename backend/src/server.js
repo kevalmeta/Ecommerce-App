@@ -22,7 +22,7 @@ app.use(express.json());
 
 // app.use(cors({ origin: ENV.CLIENT_URL, credentials: true })); // credentials: true allows cookies to be sent along with requests
 
-app.use(clerkMiddleware());
+
 
 app.use(
   cors({
@@ -33,6 +33,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(clerkMiddleware());
 
 app.use("/api/inngest", serve({
   client: inngest, 
