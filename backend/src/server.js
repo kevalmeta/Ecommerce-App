@@ -22,7 +22,7 @@ app.use(express.json());
 
 // app.use(cors({ origin: ENV.CLIENT_URL, credentials: true })); // credentials: true allows cookies to be sent along with requests
 
-app.use(clerkMiddleware());
+
 
 app.use(
   cors({
@@ -34,12 +34,13 @@ app.use(
   })
 );
 
+app.use(clerkMiddleware());
+
 app.use("/api/inngest", serve({
   client: inngest, 
   functions,
   serveHost: "https://ecommerce-app-57w5.onrender.com"
 }));
-
 app.get("/", (req, res) => res.send("Backend Server is Running Successfully!"));
 
 app.use("/api/admin", adminRoutes)
