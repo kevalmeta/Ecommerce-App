@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import express from "express";
 // import { clerkMiddleware } from "@clerk/express";
 // import { serve } from "inngest/express";
@@ -65,6 +66,10 @@
 
 import express from "express";
 import { clerkMiddleware, requireAuth } from "@clerk/express";
+=======
+import express from "express";
+import { clerkMiddleware } from "@clerk/express";
+>>>>>>> 272645f6a96aefc2caa24d18d67b172122614091
 import { serve } from "inngest/express";
 import cors from "cors";
 
@@ -83,6 +88,10 @@ const app = express();
 
 app.use(express.json());
 
+<<<<<<< HEAD
+=======
+// CORS - BEFORE Clerk middleware
+>>>>>>> 272645f6a96aefc2caa24d18d67b172122614091
 app.use(
   cors({
     origin: [
@@ -95,8 +104,26 @@ app.use(
   })
 );
 
+<<<<<<< HEAD
 // Apply Clerk but don't enforce authentication yet
 app.use(clerkMiddleware());
+=======
+// Clerk middleware with public routes configuration
+app.use(
+  clerkMiddleware({
+    publishableKey: ENV.CLERK_PUBLISHABLE_KEY,
+    // Define public routes that DON'T require authentication
+    publicRoutes: [
+      "/",
+      "/api/health",
+      "/api/products",
+      "/api/products/(.*)",
+      "/api/reviews",
+      "/api/reviews/(.*)",
+    ],
+  })
+);
+>>>>>>> 272645f6a96aefc2caa24d18d67b172122614091
 
 app.use("/api/inngest", serve({
   client: inngest, 
@@ -106,6 +133,7 @@ app.use("/api/inngest", serve({
 
 app.get("/", (req, res) => res.send("Backend Server is Running Successfully!"));
 
+<<<<<<< HEAD
 // Public routes - NO requireAuth()
 app.use("/api/products", productRoutes);
 app.use("/api/reviews", reviewRoutes);
@@ -115,6 +143,17 @@ app.use("/api/admin", requireAuth(), adminRoutes);
 app.use("/api/user", requireAuth(), userRoutes);
 app.use("/api/orders", requireAuth(), orderRoutes);
 app.use("/api/cart", requireAuth(), cartRoutes);
+=======
+// Public routes (anyone can access)
+app.use("/api/products", productRoutes);
+app.use("/api/reviews", reviewRoutes);
+
+// Protected routes (require authentication - handle in route files)
+app.use("/api/admin", adminRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/cart", cartRoutes);
+>>>>>>> 272645f6a96aefc2caa24d18d67b172122614091
 
 app.get("/api/health", (req, res) => res.status(200).json({ message: "Success" }));
 
