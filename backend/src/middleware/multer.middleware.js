@@ -16,10 +16,10 @@ const fileFilter = (req, file, cb) => {
   const extname = allowedTypes.test(
     path.extname(file.originalname).toLocaleLowerCase()
   );
-  const mimeType = allowedTypes.test(file.mimeType);
+  const mimeType = allowedTypes.test(file.mimetype);
 
   if (extname && mimeType) {
-    cd(null, true);
+    cb(null, true);
   } else {
     cb(new Error("Only image files are allowed (jpeg,jpg,png,webp)"));
   }
