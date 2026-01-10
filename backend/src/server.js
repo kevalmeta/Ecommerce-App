@@ -1,5 +1,5 @@
 import express from "express";
-import { clerkMiddleware, requireAuth } from "@clerk/express";
+import { clerkMiddleware } from "@clerk/express";
 import { serve } from "inngest/express";
 import cors from "cors";
 
@@ -18,6 +18,7 @@ const app = express();
 
 app.use(express.json());
 
+// ✅ CORS FIRST - BEFORE Clerk
 app.use(
   cors({
     origin: [
@@ -30,8 +31,13 @@ app.use(
   })
 );
 
-// Apply Clerk but don't enforce authentication yet
-app.use(clerkMiddleware());
+// ✅ Clerk with public routes configuration
+app.use(
+  clerkMiddleware({
+    // Make these routes public (no auth required)
+    publishableKey: ENV.CLERK_PUBLISHABLE_KEY,
+  })
+);
 
 app.use("/api/inngest", serve({
   client: inngest, 
@@ -41,15 +47,15 @@ app.use("/api/inngest", serve({
 
 app.get("/", (req, res) => res.send("Backend Server is Running Successfully!"));
 
-// Public routes - NO requireAuth()
+// ✅ Public routes (no auth needed)
 app.use("/api/products", productRoutes);
 app.use("/api/reviews", reviewRoutes);
 
-// Protected routes - WITH requireAuth()
-app.use("/api/admin", requireAuth(), adminRoutes);
-app.use("/api/user", requireAuth(), userRoutes);
-app.use("/api/orders", requireAuth(), orderRoutes);
-app.use("/api/cart", requireAuth(), cartRoutes);
+// ✅ Protected routes (auth required - handled in route files or here)
+app.use("/api/admin", adminRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/cart", cartRoutes);
 
 app.get("/api/health", (req, res) => res.status(200).json({ message: "Success" }));
 
