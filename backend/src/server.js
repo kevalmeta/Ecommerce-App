@@ -18,6 +18,7 @@ const app = express();
 
 app.use(express.json());
 
+
 // 🔍 DEBUG: Log all requests
 app.use((req, res, next) => {
   console.log(`📥 ${req.method} ${req.path}`);
@@ -25,6 +26,9 @@ app.use((req, res, next) => {
 });
 
 // CORS FIRST
+
+// ✅ CORS FIRST - BEFORE Clerk
+
 app.use(
   cors({
     origin: [
@@ -36,6 +40,7 @@ app.use(
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
+
 
 console.log('✅ CORS configured for:', [
   "http://localhost:5173",
@@ -57,6 +62,14 @@ app.use((req, res, next) => {
   next();
 });
 
+// ✅ Clerk with public routes configuration
+app.use(
+  clerkMiddleware({
+    // Make these routes public (no auth required)
+    publishableKey: ENV.CLERK_PUBLISHABLE_KEY,
+  })
+);
+
 app.use("/api/inngest", serve({
   client: inngest, 
   functions,
@@ -68,6 +81,7 @@ app.get("/", (req, res) => {
   res.send("Backend Server is Running Successfully!");
 });
 
+delete-product
 // Routes
 console.log('📦 Registering routes...');
 app.use("/api/products", (req, res, next) => {
@@ -76,6 +90,13 @@ app.use("/api/products", (req, res, next) => {
 }, productRoutes);
 
 app.use("/api/reviews", reviewRoutes);
+
+// ✅ Public routes (no auth needed)
+app.use("/api/products", productRoutes);
+app.use("/api/reviews", reviewRoutes);
+
+// ✅ Protected routes (auth required - handled in route files or here)
+
 app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/orders", orderRoutes);
