@@ -81,7 +81,6 @@ app.get("/", (req, res) => {
   res.send("Backend Server is Running Successfully!");
 });
 
-delete-product
 // Routes
 console.log('📦 Registering routes...');
 app.use("/api/products", (req, res, next) => {
