@@ -18,17 +18,7 @@ const app = express();
 
 app.use(express.json());
 
-
-// 🔍 DEBUG: Log all requests
-app.use((req, res, next) => {
-  console.log(`📥 ${req.method} ${req.path}`);
-  next();
-});
-
-// CORS FIRST
-
-// ✅ CORS FIRST - BEFORE Clerk
-
+// CORS - MUST BE FIRST
 app.use(
   cors({
     origin: [
@@ -36,88 +26,57 @@ app.use(
       "https://ecommerce-app-black-three-13.vercel.app",
     ],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
 
+// Clerk middleware - applies to all routes but doesn't block public ones
+app.use(clerkMiddleware());
 
-console.log('✅ CORS configured for:', [
-  "http://localhost:5173",
-  "https://ecommerce-app-black-three-13.vercel.app",
-]);
-
-// 🔍 DEBUG: Log before Clerk
-app.use((req, res, next) => {
-  console.log('🔐 Before Clerk:', req.path);
-  next();
-});
-
-// CLERK - Comment out temporarily to test
-// app.use(clerkMiddleware());
-
-// 🔍 DEBUG: Log after Clerk
-app.use((req, res, next) => {
-  console.log('✅ After Clerk:', req.path);
-  next();
-});
-
-// ✅ Clerk with public routes configuration
-app.use(
-  clerkMiddleware({
-    // Make these routes public (no auth required)
-    publishableKey: ENV.CLERK_PUBLISHABLE_KEY,
-  })
-);
-
+// Inngest
 app.use("/api/inngest", serve({
   client: inngest, 
   functions,
   serveHost: "https://ecommerce-app-57w5.onrender.com"
 }));
 
+// Homepage
 app.get("/", (req, res) => {
-  console.log('🏠 Homepage hit');
   res.send("Backend Server is Running Successfully!");
 });
 
-// Routes
-console.log('📦 Registering routes...');
-app.use("/api/products", (req, res, next) => {
-  console.log('📦 Products route hit:', req.method, req.path);
-  next();
-}, productRoutes);
-
-app.use("/api/reviews", reviewRoutes);
-
-// ✅ Public routes (no auth needed)
+// PUBLIC ROUTES - No authentication
 app.use("/api/products", productRoutes);
 app.use("/api/reviews", reviewRoutes);
 
-// ✅ Protected routes (auth required - handled in route files or here)
-
+// PROTECTED ROUTES - Authentication handled in route files
 app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/cart", cartRoutes);
 
+// Health check
 app.get("/api/health", (req, res) => {
-  console.log('💚 Health check');
   res.status(200).json({ message: "Success" });
 });
 
-// 🔍 404 Handler - catch unhandled routes
+// 404 Handler
 app.use((req, res) => {
-  console.log('❌ 404:', req.method, req.path);
   res.status(404).json({ message: "Route not found", path: req.path });
 });
 
 const startServer = async () => {
-  await connectDB();
-  app.listen(ENV.PORT, () => {
-    console.log(`🚀 Server running on port ${ENV.PORT}`);
-    console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
-  });
+  try {
+    await connectDB();
+    app.listen(ENV.PORT, () => {
+      console.log(`🚀 Server running on port ${ENV.PORT}`);
+      console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
 };
 
 startServer();
