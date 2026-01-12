@@ -18,7 +18,17 @@ const app = express();
 
 app.use(express.json());
 
+
+// 🔍 DEBUG: Log all requests
+app.use((req, res, next) => {
+  console.log(`📥 ${req.method} ${req.path}`);
+  next();
+});
+
+// CORS FIRST
+
 // ✅ CORS FIRST - BEFORE Clerk
+
 app.use(
   cors({
     origin: [
@@ -30,6 +40,27 @@ app.use(
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
+
+
+console.log('✅ CORS configured for:', [
+  "http://localhost:5173",
+  "https://ecommerce-app-black-three-13.vercel.app",
+]);
+
+// 🔍 DEBUG: Log before Clerk
+app.use((req, res, next) => {
+  console.log('🔐 Before Clerk:', req.path);
+  next();
+});
+
+// CLERK - Comment out temporarily to test
+// app.use(clerkMiddleware());
+
+// 🔍 DEBUG: Log after Clerk
+app.use((req, res, next) => {
+  console.log('✅ After Clerk:', req.path);
+  next();
+});
 
 // ✅ Clerk with public routes configuration
 app.use(
@@ -45,24 +76,48 @@ app.use("/api/inngest", serve({
   serveHost: "https://ecommerce-app-57w5.onrender.com"
 }));
 
-app.get("/", (req, res) => res.send("Backend Server is Running Successfully!"));
+app.get("/", (req, res) => {
+  console.log('🏠 Homepage hit');
+  res.send("Backend Server is Running Successfully!");
+});
+
+delete-product
+// Routes
+console.log('📦 Registering routes...');
+app.use("/api/products", (req, res, next) => {
+  console.log('📦 Products route hit:', req.method, req.path);
+  next();
+}, productRoutes);
+
+app.use("/api/reviews", reviewRoutes);
 
 // ✅ Public routes (no auth needed)
 app.use("/api/products", productRoutes);
 app.use("/api/reviews", reviewRoutes);
 
 // ✅ Protected routes (auth required - handled in route files or here)
+
 app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/cart", cartRoutes);
 
-app.get("/api/health", (req, res) => res.status(200).json({ message: "Success" }));
+app.get("/api/health", (req, res) => {
+  console.log('💚 Health check');
+  res.status(200).json({ message: "Success" });
+});
+
+// 🔍 404 Handler - catch unhandled routes
+app.use((req, res) => {
+  console.log('❌ 404:', req.method, req.path);
+  res.status(404).json({ message: "Route not found", path: req.path });
+});
 
 const startServer = async () => {
   await connectDB();
   app.listen(ENV.PORT, () => {
-    console.log(`Server is Up and running on port ${ENV.PORT}`);
+    console.log(`🚀 Server running on port ${ENV.PORT}`);
+    console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
   });
 };
 
