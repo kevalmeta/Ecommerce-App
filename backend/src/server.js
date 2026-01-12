@@ -1,5 +1,5 @@
 import express from "express";
-import { clerkMiddleware } from "@clerk/express";
+//import { clerkMiddleware } from "@clerk/express";
 import { serve } from "inngest/express";
 import cors from "cors";
 
@@ -32,7 +32,7 @@ app.use(
 );
 
 // Clerk middleware - applies to all routes but doesn't block public ones
-app.use(clerkMiddleware());
+//app.use(clerkMiddleware());
 
 // Inngest
 app.use("/api/inngest", serve({
