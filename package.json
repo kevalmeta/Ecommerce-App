@@ -6,7 +6,7 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "build": "npm install --prefix backend && npm install --prefix admin && npm run build --prefix admin", 
+    "build": "npm install --prefix backend && npm install --prefix admin && npm run build --prefix admin",
     "start": "npm run start --prefix backend"
   },
   "repository": {
@@ -20,5 +20,14 @@
     "url": "https://github.com/kevalmeta/Ecommerce-App/issues"
   },
   "homepage": "https://github.com/kevalmeta/Ecommerce-App#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "expo": "^54.0.31",
+    "expo-auth-session": "~7.0.10",
+    "expo-web-browser": "~15.0.10"
+  },
+  "devDependencies": {
+    "@types/react": "~19.1.10",
+    "typescript": "~5.9.2"
+  }
 }
