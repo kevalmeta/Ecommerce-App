@@ -125,7 +125,7 @@ export async function addToWishlist(req, res) {
     const user = req.user;
 
     //check if product is already in the wishlist
-    if (user.wishlist.inclues(productId)) {
+    if (user.wishlist.includes(productId)) {
       return res.status(400).json({ error: "Product already in wishlist" });
     }
 
@@ -143,7 +143,7 @@ export async function removeFromWishlist(req, res) {
     const user = req.user;
 
     //check if product is already in the wishlist
-    if (!user.wishlist.inclues(productId)) {
+    if (!user.wishlist.includes(productId)) {
       return res.status(400).json({ error: "Product not found in wishlist" });
     }
 
