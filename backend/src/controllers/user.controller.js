@@ -125,12 +125,17 @@ export async function addToWishlist(req, res) {
     const user = req.user;
 
     //check if product is already in the wishlist
-    if (user.wishlist.inclues(productId)) {
+    if (user.wishlist.includes(productId)) {
       return res.status(400).json({ error: "Product already in wishlist" });
     }
 
     user.wishlist.push(productId);
     await user.save();
+
+      return res.status(200).json({
+      message: "Product added to wishlist",
+      wishlist: user.wishlist,
+    });
   } catch (error) {
     console.error("Error in addToWishlist controller:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -143,7 +148,7 @@ export async function removeFromWishlist(req, res) {
     const user = req.user;
 
     //check if product is already in the wishlist
-    if (!user.wishlist.inclues(productId)) {
+    if (!user.wishlist.includes(productId)) {
       return res.status(400).json({ error: "Product not found in wishlist" });
     }
 

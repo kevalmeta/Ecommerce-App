@@ -7,15 +7,14 @@ const router =Router();
 router.use(protectRoute);
 
 //address routers
-router.post("/addresses",protectRoute,addAddress)
-router.get("/addresses",protectRoute,getAddresses)
-router.put("/addresses/:addressId",protectRoute,updateAddress)
-router.delete("/addresses/:addressId",protectRoute,deleteSAddress)
+router.post("/addresses",addAddress)
+router.get("/addresses",getAddresses)
+router.put("/addresses/:addressId",updateAddress)
+router.delete("/addresses/:addressId",deleteSAddress)
 
 //wishlist routes
-
-router.put("/wishlist",addToWishlist)
-router.delete("/wishlist/:productId",removeFromWishlist)
-router.get("/wishlist",getWishlist)
+router.post("/",addToWishlist)
+router.delete("/:productId",removeFromWishlist)
+router.get("/",getWishlist)
 
 export default router;
