@@ -21,7 +21,7 @@ interface ProductsGridProps {
 
 const ProductsGrid = ({ products, isLoading, isError }: ProductsGridProps) => {
   const { isInWishlist, toggleWishlist, isAddingToWishlist, isRemovingFromWishlist } =
-  useWishlist();
+    useWishlist();
 
   const { isAddingToCart, addToCart } = useCart();
 

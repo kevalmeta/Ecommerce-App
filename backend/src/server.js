@@ -52,7 +52,7 @@ app.use("/api/reviews", reviewRoutes);
 
 // PROTECTED ROUTES - Authentication handled in route files
 app.use("/api/admin", adminRoutes);
-app.use("/api/user", userRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/cart", cartRoutes);
 

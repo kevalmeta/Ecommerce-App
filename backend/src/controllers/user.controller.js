@@ -131,6 +131,11 @@ export async function addToWishlist(req, res) {
 
     user.wishlist.push(productId);
     await user.save();
+
+      return res.status(200).json({
+      message: "Product added to wishlist",
+      wishlist: user.wishlist,
+    });
   } catch (error) {
     console.error("Error in addToWishlist controller:", error);
     res.status(500).json({ error: "Internal server error" });
