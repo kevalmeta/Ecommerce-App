@@ -6,15 +6,17 @@ const router =Router();
 
 router.use(protectRoute);
 
-//address routers
-router.post("/addresses",addAddress)
-router.get("/addresses",getAddresses)
-router.put("/addresses/:addressId",updateAddress)
-router.delete("/addresses/:addressId",deleteSAddress)
+console.log("✅ USER ROUTES LOADED");
 
-//wishlist routes
-router.post("/",addToWishlist)
-router.delete("/:productId",removeFromWishlist)
-router.get("/",getWishlist)
+// Wishlist routes
+router.post("/wishlist", protectRoute, addToWishlist);
+router.get("/wishlist", protectRoute, getWishlist);
+router.delete("/wishlist/:productId", protectRoute, removeFromWishlist);
+
+// Address routes
+router.post("/addresses", protectRoute, addAddress);
+router.get("/addresses", protectRoute, getAddresses);
+router.put("/addresses/:addressId", protectRoute, updateAddress);
+router.delete("/addresses/:addressId", protectRoute, deleteSAddress);
 
 export default router;

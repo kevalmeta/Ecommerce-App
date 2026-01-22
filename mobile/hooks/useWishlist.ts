@@ -18,15 +18,43 @@ const useWishlist = () => {
     },
   });
 
-  const addToWishlistMutation = useMutation({
-    mutationFn: async (productId: string) => {
-      const { data } = await api.post<{ wishlist: string[] }>("/wishlist", { productId });
-      return data.wishlist;
+  // const addToWishlistMutation = useMutation({
+  //   mutationFn: async (productId: string) => {
+  //     const { data } = await api.post<{ wishlist: string[] }>("/wishlist", { productId });
+  //     return data.wishlist;
       
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["wishlist"] }),
+  //   },
+  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: ["wishlist"] }),
     
-  });
+  // });
+
+  const addToWishlistMutation = useMutation({
+  mutationFn: async (productId: string) => {
+    console.log("🔄 Starting wishlist add");
+    console.log("📦 Product ID:", productId);
+    console.log("🌐 API Base:", api.defaults.baseURL);
+    
+    try {
+      const response = await api.post("/user/wishlist", { productId });
+      console.log("✅ Wishlist add SUCCESS");
+      console.log("📊 Response:", response.data);
+      return response.data.wishlist;
+    } catch (error: any) {
+      console.log("❌ Wishlist add FAILED");
+      console.log("Status:", error?.response?.status);
+      console.log("Data:", error?.response?.data);
+      console.log("URL:", error?.config?.url);
+      throw error;
+    }
+  },
+  onSuccess: (data) => {
+    console.log("✅ Mutation success, invalidating queries");
+    queryClient.invalidateQueries({ queryKey: ["wishlist"] });
+  },
+  onError: (error) => {
+    console.log("❌ Mutation error:", error);
+  }
+});
 
   const removeFromWishlistMutation = useMutation({
     mutationFn: async (productId: string) => {
