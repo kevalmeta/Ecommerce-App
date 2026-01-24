@@ -102,7 +102,7 @@ function WishlistScreen() {
                     {item.stock > 0 ? (
                       <View className="flex-row items-center">
                         <View className="w-2 h-2 bg-green-500 rounded-full mr-2" />
-                        <Text className="text-green-500 text-sm font-semibold">
+                        <Text className="text-green-500 text-sm">
                           {item.stock} in stock
                         </Text>
                       </View>
