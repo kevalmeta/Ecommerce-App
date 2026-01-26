@@ -42,8 +42,14 @@ const ProductDetailScreen = () => {
     );
   };
 
+  
+
   if (isLoading) return <LoadingUI />;
   if (isError || !product) return <ErrorUI />;
+  const price = Number(product.price) || 0;
+const rating = Number(product.averageRating) || 0;
+const reviews = Number(product.totalReviews) || 0;
+
 
   const inStock = product.stock > 0;
 
@@ -95,7 +101,7 @@ const ProductDetailScreen = () => {
               setSelectedImageIndex(index);
             }}
           >
-            {product.images.map((image: string, index: number) => (
+            {product.images?.map((image: string, index: number) => (
               <View key={index} style={{ width }}>
                 <Image source={image} style={{ width, height: 400 }} contentFit="cover" />
               </View>
@@ -104,7 +110,7 @@ const ProductDetailScreen = () => {
 
           {/* Image Indicators */}
           <View className="absolute bottom-4 left-0 right-0 flex-row justify-center gap-2">
-            {product.images.map((_: any, index: number) => (
+            {product.images?.map((_: any, index: number) => (
               <View
                 key={index}
                 className={`h-2 rounded-full ${
@@ -132,7 +138,7 @@ const ProductDetailScreen = () => {
             <View className="flex-row items-center bg-surface px-3 py-2 rounded-full">
               <Ionicons name="star" size={16} color="#FFC107" />
               <Text className="text-text-primary font-bold ml-1 mr-2">
-                {product.averageRating.toFixed(1)}
+                {rating.toFixed(1)}
               </Text>
               <Text className="text-text-secondary text-sm">({product.totalReviews} reviews)</Text>
             </View>
@@ -153,7 +159,7 @@ const ProductDetailScreen = () => {
 
           {/* Price */}
           <View className="flex-row items-center mb-6">
-            <Text className="text-primary text-4xl font-bold">${product.price.toFixed(2)}</Text>
+            <Text className="text-primary text-4xl font-bold">${price.toFixed(2)}</Text>
           </View>
 
           {/* Quantity */}
@@ -205,7 +211,7 @@ const ProductDetailScreen = () => {
           <View className="flex-1">
             <Text className="text-text-secondary text-sm mb-1">Total Price</Text>
             <Text className="text-primary text-2xl font-bold">
-              ${(product.price * quantity).toFixed(2)}
+              ${(price * quantity).toFixed(2)}
             </Text>
           </View>
           <TouchableOpacity
