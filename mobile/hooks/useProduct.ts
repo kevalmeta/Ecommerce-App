@@ -10,9 +10,6 @@ export const useProduct = (productId: string) => {
     enabled: !!productId,
     queryFn: async () => {
       const { data } = await api.get(`/products/${productId}`);
-
-      console.log("🧾 PRODUCT RESPONSE:", data);
-
       // ✅ IMPORTANT: unwrap product
       return {
         ...data.product,
