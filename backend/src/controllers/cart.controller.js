@@ -3,7 +3,7 @@ import { Product } from "../models/product.model.js";
 
 export async function getCart(req, res) {
   try {
-    const cart = await Cart.findOne({ clearkId: req.user.clearkId }).populate(
+    const cart = await Cart.findOne({ clerkId : req.user.clerkId  }).populate(
       "items.product"
     );
     if (!cart) {
@@ -14,6 +14,12 @@ export async function getCart(req, res) {
         items: [],
       });
     }
+    if (cart.items) {
+  cart.items = cart.items.filter(item => item.product !== null);
+  await cart.save();
+}
+res.status(200).json({ cart });
+
     res.status(200).json({ cart });
   } catch (error) {
     console.error("Error in getCart controller:", error);

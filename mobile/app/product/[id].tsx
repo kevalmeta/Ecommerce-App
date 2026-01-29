@@ -42,13 +42,13 @@ const ProductDetailScreen = () => {
     );
   };
 
-  
+
 
   if (isLoading) return <LoadingUI />;
   if (isError || !product) return <ErrorUI />;
   const price = Number(product.price) || 0;
-const rating = Number(product.averageRating) || 0;
-const reviews = Number(product.totalReviews) || 0;
+  const rating = Number(product.averageRating) || 0;
+  const reviews = Number(product.totalReviews) || 0;
 
 
   const inStock = product.stock > 0;
@@ -66,9 +66,8 @@ const reviews = Number(product.totalReviews) || 0;
         </TouchableOpacity>
 
         <TouchableOpacity
-          className={`w-12 h-12 rounded-full items-center justify-center ${
-            isInWishlist(product._id) ? "bg-primary" : "bg-black/50 backdrop-blur-xl"
-          }`}
+          className={`w-12 h-12 rounded-full items-center justify-center ${isInWishlist(product._id) ? "bg-primary" : "bg-black/50 backdrop-blur-xl"
+            }`}
           onPress={() => toggleWishlist(product._id)}
           disabled={isAddingToWishlist || isRemovingFromWishlist}
           activeOpacity={0.7}
@@ -113,9 +112,8 @@ const reviews = Number(product.totalReviews) || 0;
             {product.images?.map((_: any, index: number) => (
               <View
                 key={index}
-                className={`h-2 rounded-full ${
-                  index === selectedImageIndex ? "bg-primary w-6" : "bg-white/50 w-2"
-                }`}
+                className={`h-2 rounded-full ${index === selectedImageIndex ? "bg-primary w-6" : "bg-white/50 w-2"
+                  }`}
               />
             ))}
           </View>
@@ -140,12 +138,12 @@ const reviews = Number(product.totalReviews) || 0;
               <Text className="text-text-primary font-bold ml-1 mr-2">
                 {rating.toFixed(1)}
               </Text>
-              <Text className="text-text-secondary text-sm">({product.totalReviews} reviews)</Text>
+              <Text className="text-text-secondary text-sm">({reviews} reviews)</Text>
             </View>
             {inStock ? (
               <View className="ml-3 flex-row items-center">
                 <View className="w-2 h-2 bg-green-500 rounded-full mr-2" />
-                <Text className="text-green-500 font-semibold text-sm">
+                <Text className="text-green-500 font-semibold ">
                   {product.stock} in stock
                 </Text>
               </View>
@@ -215,9 +213,8 @@ const reviews = Number(product.totalReviews) || 0;
             </Text>
           </View>
           <TouchableOpacity
-            className={`rounded-2xl px-8 py-4 flex-row items-center ${
-              !inStock ? "bg-surface" : "bg-primary"
-            }`}
+            className={`rounded-2xl px-8 py-4 flex-row items-center ${!inStock ? "bg-surface" : "bg-primary"
+              }`}
             activeOpacity={0.8}
             onPress={handleAddToCart}
             disabled={!inStock || isAddingToCart}
@@ -228,9 +225,8 @@ const reviews = Number(product.totalReviews) || 0;
               <>
                 <Ionicons name="cart" size={24} color={!inStock ? "#666" : "#121212"} />
                 <Text
-                  className={`font-bold text-lg ml-2 ${
-                    !inStock ? "text-text-secondary" : "text-background"
-                  }`}
+                  className={`font-bold ml-2 ${!inStock ? "text-text-secondary" : "text-background"
+                    }`}
                 >
                   {!inStock ? "Out of Stock" : "Add to Cart"}
                 </Text>
