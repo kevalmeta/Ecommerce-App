@@ -6,8 +6,6 @@ const router =Router();
 
 router.use(protectRoute);
 
-console.log("✅ USER ROUTES LOADED");
-
 // Wishlist routes
 router.post("/wishlist", protectRoute, addToWishlist);
 router.get("/wishlist", protectRoute, getWishlist);

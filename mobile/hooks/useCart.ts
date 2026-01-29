@@ -6,6 +6,18 @@ const useCart = () => {
   const api = useApi();
   const queryClient = useQueryClient();
 
+  const {
+    data: cart,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["cart"],
+    queryFn: async () => {
+      const { data } = await api.get<{ cart: Cart }>("/cart");
+      return data.cart;
+    }
+  })
+
   const addToCartMutation = useMutation({
     mutationFn: async ({ productId, quantity = 1 }: { productId: string; quantity?: number }) => {
       const { data } = await api.post<{ cart: Cart }>("/cart", { productId, quantity });
@@ -14,10 +26,63 @@ const useCart = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["cart"] }),
   });
 
-  return{
+   const updateQuantityMutation = useMutation({
+    mutationFn: async ({ productId, quantity}: { productId: string; quantity: number }) => {
+      const { data } = await api.put<{ cart: Cart }>(`/cart/${productId}`, {quantity });
+      return data.cart;
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["cart"] }),
+  });
+
+  const removeFromCartMutation = useMutation({
+    mutationFn: async (productId: string) => {
+      const { data } = await api.delete<{ cart: Cart }>(`/cart/${productId}`);
+      return data.cart;
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["cart"] }),
+  });
+
+  const clearCartMutation = useMutation({
+    mutationFn:async() => {
+      const { data } = await api.delete<{ cart: Cart }>("/cart");
+      return data.cart;
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["cart"] }),
+  });
+
+  // const cartTotal=
+  // cart?.items.reduce((sum,item)=>sum+item.product.price*item.quantity,0)??0;
+    // const cartItemCount = cart?.items.reduce((sum,item)=>sum+item.quantity,0)??0;
+
+  const cartTotal =
+  cart?.items.reduce((sum, item) => {
+    if (!item.product || !item.product.price) return sum;
+    return sum + Number(item.product.price) * item.quantity;
+  }, 0) ?? 0;
+
+  const cartItemCount =
+  cart?.items.reduce((sum, item) => {
+    if (!item.product) return sum;
+    return sum + item.quantity;
+  }, 0) ?? 0;
+
+
+
+
+  return {
+    cart ,
+    isLoading,
+    isError,
+    cartTotal,
+    cartItemCount,
     addToCart: addToCartMutation.mutate,
     isAddingToCart: addToCartMutation.isPending,
-   
+    updateQuantity: updateQuantityMutation.mutate,
+    isUpdating: updateQuantityMutation.isPending,
+    removeFromCart: removeFromCartMutation.mutate,
+    isRemoving: removeFromCartMutation.isPending,
+    clearCart: clearCartMutation.mutateAsync,
+    isClearing: clearCartMutation.isPending,
   };
 };
 export default useCart;
