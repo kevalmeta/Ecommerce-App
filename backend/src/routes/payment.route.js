@@ -6,7 +6,7 @@ const router = Router();
 
 router.post("/create-intent", protectRoute, createPaymentIntent);
 
-// No auth needed - Stripe validates via signature
-router.post("/webhook", handleWebhook);
+//No auth needed
+router.post("/webhook",handleWebhook)
 
 export default router;
