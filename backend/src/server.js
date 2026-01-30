@@ -15,8 +15,23 @@ import reviewRoutes from "./routes/review.route.js";
 import cartRoutes from "./routes/cart.route.js";
 import paymentRoutes from "./routes/payment.route.js";
 
-
+// special handling: Stripe webhook needs raw body BEFORE any body parsing middleware
+// apply raw body parser conditionally only to webhook endpoint
+app.use(
+  "/api/payment",
+  (req, res, next) => {
+    if (req.originalUrl === "/api/payment/webhook") {
+      express.raw({ type: "application/json" })(req, res, next);
+    } else {
+      express.json()(req, res, next); // parse json for non-webhook routes
+    }
+  },
+  paymentRoutes
+);
+ 
 const app = express();
+
+
 
 app.use(express.json());
 
