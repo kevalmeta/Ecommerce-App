@@ -58,7 +58,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/cart", cartRoutes);
 
-app.use("api/payment",paymentRoutes)
+app.use("/api/payment",paymentRoutes)
 
 // Health check
 app.get("/api/health", (req, res) => {
