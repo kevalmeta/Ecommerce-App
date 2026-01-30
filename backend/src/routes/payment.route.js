@@ -1,10 +1,12 @@
 import { Router } from "express";
-import router from "./admin.route.js";
 import { protectRoute } from "../middleware/auth.middleware.js";
-import { createPaymentIntent } from "../controllers/payment.controller.js";
+import { createPaymentIntent, handleWebhook } from "../controllers/payment.controller.js";
 
-const route = Router();
+const router = Router();
 
-router.post("/create-intent",protectRoute,createPaymentIntent);
+router.post("/create-intent", protectRoute, createPaymentIntent);
+
+// No auth needed - Stripe validates via signature
+router.post("/webhook", handleWebhook);
 
 export default router;
