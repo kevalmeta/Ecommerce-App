@@ -6,6 +6,4 @@ const router = Router();
 
 router.post("/create-intent", protectRoute, createPaymentIntent);
 
-// No auth needed - Stripe validates via signature
-
 export default router;
