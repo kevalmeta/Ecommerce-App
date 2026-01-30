@@ -6,4 +6,5 @@ const router = Router();
 
 router.post("/create-intent", protectRoute, createPaymentIntent);
 
+
 export default router;

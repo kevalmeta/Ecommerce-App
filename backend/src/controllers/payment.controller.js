@@ -80,10 +80,11 @@ export async function createPaymentIntent(req, res) {
       metadata: {
         clerkId: user.clerkId,
         userId: user._id.toString(),
-        orderItems: JSON.stringify(validatedItems),
+        itemCount: validatedItems.length.toString(),
         shippingAddress: JSON.stringify(shippingAddress),
         totalPrice: total.toFixed(2),
       },
+      description: `Order for ${user.name} - ${validatedItems.length} items`, // Add description instead
       // in the webhooks section we will use this metadata
     });
 
