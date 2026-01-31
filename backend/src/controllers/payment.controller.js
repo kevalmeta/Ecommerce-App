@@ -95,7 +95,7 @@ export async function createPaymentIntent(req, res) {
   }
 }
 
-export async function handleWebhook(req,res) {
+export async function handleWebhook(req, res) {
   const sig = req.headers["stripe-signature"];
   let event;
 
@@ -112,37 +112,88 @@ export async function handleWebhook(req,res) {
     console.log("Payment succeeded:", paymentIntent.id);
 
     try {
-      const { userId, clerkId, orderItems, shippingAddress, totalPrice } = paymentIntent.metadata;
+      // const { userId, clerkId, orderItems, shippingAddress, totalPrice } = paymentIntent.metadata;
 
-      // Check if order already exists (prevent duplicates)
-      const existingOrder = await Order.findOne({ "paymentResult.id": paymentIntent.id });
+      // // Check if order already exists (prevent duplicates)
+      // const existingOrder = await Order.findOne({ "paymentResult.id": paymentIntent.id });
+      // if (existingOrder) {
+      //   console.log("Order already exists for payment:", paymentIntent.id);
+      //   return res.json({ received: true });
+      // }
+
+      // // create order
+      // const order = await Order.create({
+      //   user: userId,
+      //   clerkId,
+      //   orderItems: JSON.parse(orderItems),
+      //   shippingAddress: JSON.parse(shippingAddress),
+      //   paymentResult: {
+      //     id: paymentIntent.id,
+      //     status: "succeeded",
+      //   },
+      //   totalPrice: parseFloat(totalPrice),
+      // });
+
+      // // update product stock
+      // const items = JSON.parse(orderItems);
+      // for (const item of items) {
+      //   await Product.findByIdAndUpdate(item.product, {
+      //     $inc: { stock: -item.quantity },
+      //   });
+      // }
+
+      // console.log("Order created successfully:", order._id);
+
+      const { userId, clerkId, shippingAddress, totalPrice } = paymentIntent.metadata;
+
+      // Get the cart to retrieve order items
+      const cart = await Cart.findOne({ clerkId }).populate("items.product");
+      if (!cart || cart.items.length === 0) {
+        console.error("Cart not found for clerkId:", clerkId);
+        return res.status(400).json({ error: "Cart not found" });
+      }
+
+      // Build order items from cart
+      const orderItems = cart.items.map(item => ({
+        product: item.product._id,
+        name: item.product.name,
+        price: item.product.price,
+        quantity: item.quantity,
+        image: item.product.images[0],
+      }));
+
+      // Check if order already exists
+      const existingOrder = await Order.findOne({ paymentIntentId: paymentIntent.id });
       if (existingOrder) {
         console.log("Order already exists for payment:", paymentIntent.id);
         return res.json({ received: true });
       }
 
-      // create order
+      // Create order
       const order = await Order.create({
         user: userId,
         clerkId,
-        orderItems: JSON.parse(orderItems),
+        items: orderItems,  // Use 'items' not 'orderItems' based on your Order model
         shippingAddress: JSON.parse(shippingAddress),
-        paymentResult: {
-          id: paymentIntent.id,
-          status: "succeeded",
-        },
+        paymentIntentId: paymentIntent.id,
+        paymentStatus: "paid",
+        orderStatus: "processing",
         totalPrice: parseFloat(totalPrice),
       });
 
-      // update product stock
-      const items = JSON.parse(orderItems);
-      for (const item of items) {
-        await Product.findByIdAndUpdate(item.product, {
+      // Update product stock
+      for (const item of cart.items) {
+        await Product.findByIdAndUpdate(item.product._id, {
           $inc: { stock: -item.quantity },
         });
       }
 
+      // Clear cart
+      cart.items = [];
+      await cart.save();
+
       console.log("Order created successfully:", order._id);
+
     } catch (error) {
       console.error("Error creating order from webhook:", error);
     }
