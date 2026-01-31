@@ -47,8 +47,8 @@ export async function createOrder(req, res) {
 
 export async function getUserOrders(req, res) {
   try {
-    // const orders = await Order.find({clerkId:req.user.clerkId}).populate("orderItems.product")
-    const orders = await Order.find({clerkId:req.user.clerkId}).populate("items.product")
+      const orders = await Order.find({clerkId:req.user.clerkId}).populate("orderItems.product")
+    // const orders = await Order.find({clerkId:req.user.clerkId}).populate("items.product")
     .sort({ createdAt: -1 });
 
     //check if each order has been reviewed
