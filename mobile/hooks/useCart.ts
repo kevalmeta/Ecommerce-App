@@ -81,7 +81,7 @@ const useCart = () => {
     isUpdating: updateQuantityMutation.isPending,
     removeFromCart: removeFromCartMutation.mutate,
     isRemoving: removeFromCartMutation.isPending,
-    clearCart: clearCartMutation.mutateAsync,
+    clearCart: clearCartMutation.mutate,
     isClearing: clearCartMutation.isPending,
   };
 };
