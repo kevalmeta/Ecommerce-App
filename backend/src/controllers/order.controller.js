@@ -51,6 +51,7 @@ export async function getUserOrders(req, res) {
     // const orders = await Order.find({clerkId:req.user.clerkId}).populate("items.product")
     .sort({ createdAt: -1 });
 
+     console.log("📦 First order data:", JSON.stringify(orders[0], null, 2));
     //check if each order has been reviewed
 
     const orderIds = orders.map(order => order._id);
