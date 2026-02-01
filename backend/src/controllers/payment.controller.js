@@ -112,38 +112,6 @@ export async function handleWebhook(req, res) {
     console.log("Payment succeeded:", paymentIntent.id);
 
     try {
-      // const { userId, clerkId, orderItems, shippingAddress, totalPrice } = paymentIntent.metadata;
-
-      // // Check if order already exists (prevent duplicates)
-      // const existingOrder = await Order.findOne({ "paymentResult.id": paymentIntent.id });
-      // if (existingOrder) {
-      //   console.log("Order already exists for payment:", paymentIntent.id);
-      //   return res.json({ received: true });
-      // }
-
-      // // create order
-      // const order = await Order.create({
-      //   user: userId,
-      //   clerkId,
-      //   orderItems: JSON.parse(orderItems),
-      //   shippingAddress: JSON.parse(shippingAddress),
-      //   paymentResult: {
-      //     id: paymentIntent.id,
-      //     status: "succeeded",
-      //   },
-      //   totalPrice: parseFloat(totalPrice),
-      // });
-
-      // // update product stock
-      // const items = JSON.parse(orderItems);
-      // for (const item of items) {
-      //   await Product.findByIdAndUpdate(item.product, {
-      //     $inc: { stock: -item.quantity },
-      //   });
-      // }
-
-      // console.log("Order created successfully:", order._id);
-
       const { userId, clerkId, shippingAddress, totalPrice } = paymentIntent.metadata;
 
       // Get the cart to retrieve order items
@@ -173,7 +141,7 @@ export async function handleWebhook(req, res) {
       const order = await Order.create({
         user: userId,
         clerkId,
-        items: orderItems,  // Use 'items' not 'orderItems' based on your Order model
+        orderItems: orderItems,
         shippingAddress: JSON.parse(shippingAddress),
         paymentIntentId: paymentIntent.id,
         paymentStatus: "paid",
