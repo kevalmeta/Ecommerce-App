@@ -11,10 +11,9 @@ export const useProduct = (productId: string) => {
     queryFn: async () => {
       const { data } = await api.get(`/products/${productId}`);
       // ✅ IMPORTANT: unwrap product
-      return {
-        ...data.product,
-        totalReviews: data.product.totalRatings ?? 0,
-      };
+      return data.product
+        // totalReviews: data.product.totalRatings ?? 0,
+      ;
     },
   });
 };

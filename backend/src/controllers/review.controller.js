@@ -34,8 +34,8 @@ export async function createReview(req, res) {
 
     //check if review already exists for this order and product
     const existingReview = await Review.findOne({
-      productId,
-      userId: user._id,
+      product: productId,
+      user: user._id,
     });
     if (existingReview) {
       return res.status(400).json({
@@ -51,7 +51,7 @@ export async function createReview(req, res) {
     });
 
     //update the product rating with atomic aggregation
-    const reviews = await Review.find({ productId });
+    const reviews = await Review.find({ product: productId });
     const totalRatings = reviews.reduce((sum, rev) => sum + rev.rating, 0);
     const updatedProduct = await Product.findByIdAndUpdate(
       productId,
@@ -85,15 +85,15 @@ export async function deleteReview(req, res) {
     if (!review) {
       return res.status(404).json({ error: "Review not found" });
     }
-    if (review.userId.toString() !== user._id.toString()) {
+    if (review.user.toString() !== user._id.toString()) {
       return res
         .status(403)
         .json({ error: "You are not authorized to delete this review" });
     }
-    const productId = review.productId;
+    const productId = review.product;
     await Review.findByIdAndDelete(reviewId);
 
-    const reviews = await Review.find({ productId });
+    const reviews = await Review.find({ product: productId });
     const totalRatings = reviews.reduce((sum, rev) => sum + rev.rating, 0);
     const product = await Product.findByIdAndUpdate(productId, {
       averageRating: reviews.length > 0 ? totalRatings / reviews.length : 0,
