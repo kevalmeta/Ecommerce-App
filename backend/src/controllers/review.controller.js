@@ -46,9 +46,9 @@ export async function createReview(req, res) {
     }
 
     const review = await Review.create({
-      product: productId,
-      user: user._id,
-      order: orderId,
+      productId: productId,  // ✅ Correct field name
+      userId: user._id,      // ✅ Correct field name
+      orderId: orderId,      // ✅ Correct field name
       rating,
     });
 
