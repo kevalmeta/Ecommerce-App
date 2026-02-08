@@ -34,7 +34,7 @@ const productSchema = new mongoose.Schema({
       max:5,
       default:0,
     },
-    totalRatings:{
+    totalReviews:{
       type: Number,
       default:0,
     },
