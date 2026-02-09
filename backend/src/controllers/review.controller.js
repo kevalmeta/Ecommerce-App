@@ -20,7 +20,7 @@ export async function createReview(req, res) {
         .status(403)
         .json({ error: "You are not authorized to review this order" });
     }
-  if (order.status !== "delivered") {  // ✅ Correct
+    if (order.status !== "delivered") {  // ✅ Correct
       return res
         .status(400)
         .json({ error: "You can only review delivered orders" });
@@ -35,9 +35,11 @@ export async function createReview(req, res) {
     }
 
     //check if review already exists for this order and product
+
     const existingReview = await Review.findOne({
-      productId: productId,  // ✅ Correct
-      userId: user._id,      // ✅ Correct
+      productId: productId,
+      userId: user._id,
+      orderId: orderId,  // ✅ Add this so you can review same product from different orders
     });
     if (existingReview) {
       return res.status(400).json({
@@ -51,6 +53,7 @@ export async function createReview(req, res) {
       orderId: orderId,      // or just orderId
       rating,
     });
+
 
     //update the product rating with atomic aggregation
     const reviews = await Review.find({ productId: productId });  // ✅ Correct
