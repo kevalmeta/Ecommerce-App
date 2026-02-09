@@ -20,7 +20,7 @@ export async function createReview(req, res) {
         .status(403)
         .json({ error: "You are not authorized to review this order" });
     }
-    if (order.orderStatus !== "delivered") {  // ✅ Correct (based on your Order schema)
+  if (order.status !== "delivered") {  // ✅ Correct
       return res
         .status(400)
         .json({ error: "You can only review delivered orders" });
