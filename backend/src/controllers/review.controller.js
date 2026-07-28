@@ -15,12 +15,12 @@ export async function createReview(req, res) {
     if (!order) {
       return res.status(404).json({ error: "Order not found" });
     }
-    if (order.clerkId !== user.clerkId) {  // ✅ Correct
+    if (order.clerkId !== user.clerkId) {  
       return res
         .status(403)
         .json({ error: "You are not authorized to review this order" });
     }
-    if (order.status !== "delivered") {  // ✅ Correct
+    if (order.status !== "delivered") { 
       return res
         .status(400)
         .json({ error: "You can only review delivered orders" });
@@ -39,18 +39,18 @@ export async function createReview(req, res) {
     const existingReview = await Review.findOne({
       productId: productId,
       userId: user._id,
-      orderId: orderId,  // ✅ Add this so you can review same product from different orders
+      orderId: orderId,  
     });
     if (existingReview) {
       return res.status(400).json({
         error: "You have already reviewed this product for this order",
       });
     }
-    
+
     const review = await Review.create({
-      productId: productId,  // or just productId
-      userId: user._id,      // or just userId: user._id
-      orderId: orderId,      // or just orderId
+      productId: productId,  
+      userId: user._id,      
+      orderId: orderId,      
       rating,
     });
 
