@@ -16,7 +16,7 @@ import cartRoutes from "./routes/cart.route.js";
 import paymentRoutes from "./routes/payment.route.js";
 
 
- 
+
 const app = express();
 // special handling: Stripe webhook needs raw body BEFORE any body parsing middleware
 // apply raw body parser conditionally only to webhook endpoint
@@ -40,6 +40,9 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://ecommerce-app-black-three-13.vercel.app",
+      "https://ecommerce-app-git-main-keval-metas-projects.vercel.app",
+      // Allow ALL Vercel preview URLs for this project too (recommended while testing):
+      /^https:\/\/ecommerce-app-.*-keval-metas-projects\.vercel\.app$/,
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
