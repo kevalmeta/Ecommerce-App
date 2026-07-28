@@ -12,14 +12,17 @@ import PageLoader from "./components/PageLoader";
 const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
 
 function App() {
-  const { isSignedIn, isLoaded } = useAuth();
-  const { user } = useUser();
+  const { isSignedIn, isLoaded: authLoaded } = useAuth();
+  const { user, isLoaded: userLoaded } = useUser();
   const { signOut } = useClerk();
 
-  if (!isLoaded) { return (<PageLoader />) }
+  if (!authLoaded || !userLoaded) {
+    return <PageLoader />;
+  }
 
-  const userEmail = user?.primaryEmailAddress?.emailAddress;
-  const isAdmin = isSignedIn && userEmail === ADMIN_EMAIL;
+  const userEmail = user?.primaryEmailAddress?.emailAddress?.toLowerCase().trim();
+  const adminEmail = ADMIN_EMAIL?.toLowerCase().trim();
+  const isAdmin = isSignedIn && userEmail && userEmail === adminEmail;
 
   if (isSignedIn && !isAdmin) {
     signOut();
