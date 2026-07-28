@@ -1,19 +1,30 @@
 import axios from 'axios';
 
-const token = await window.Clerk?.session?.getToken();
-
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000', 
-  withCredentials: true, // For Clerk cookies
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Add request interceptor for debugging
+// This runs on EVERY request, gets a FRESH token each time, and attaches it
 axiosInstance.interceptors.request.use(
-  (config) => {
+  async (config) => {
     console.log('🚀 Request:', config.method.toUpperCase(), config.url);
+
+    try {
+      const token = await window.Clerk?.session?.getToken();
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+        console.log('🔑 Token attached:', token.slice(0, 20) + '...');
+      } else {
+        console.warn('⚠️ No Clerk token available yet');
+      }
+    } catch (err) {
+      console.error('⚠️ Could not get Clerk token:', err);
+    }
+
     return config;
   },
   (error) => {
@@ -22,7 +33,6 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// Add response interceptor for debugging
 axiosInstance.interceptors.response.use(
   (response) => {
     console.log('✅ Response:', response.config.url, response.data);
