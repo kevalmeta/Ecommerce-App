@@ -145,7 +145,7 @@ export async function updateOrderStatus(req, res) {
 
 export async function getAllCustomers(_, res) {
   try {
-    const customers = await User.find().sort({ createdAt: -1 }); //latest user first
+    const customers = await User.find().sort({ createdAt: -1 });
     res.status(200).json({ customers });
   } catch (error) {
     console.error("Error fetching customers:", error);
@@ -190,16 +190,15 @@ export async function deleteProduct(req, res) {
   try {
     const { id } = req.params;
     
-    console.log('🗑️ Deleting product:', id);
+    console.log('Deleting product:', id);
     
     const product = await Product.findById(id);
 
     if (!product) {
-      console.log('❌ Product not found');
+      console.log('Product not found');
       return res.status(404).json({ message: "Product not found" });
     }
 
-    // Delete images from Cloudinary
     if (product.images && product.images.length > 0) {
       const deletePromises = product.images.map((imageUrl) => {
         // Extract public_id from Cloudinary URL
@@ -216,12 +215,12 @@ export async function deleteProduct(req, res) {
     // Delete product from database
     await Product.findByIdAndDelete(id);
 
-    console.log('✅ Product deleted successfully:', product.name);
+    console.log('Product deleted successfully:', product.name);
     res.status(200).json({ 
       message: "Product deleted successfully"
     });
   } catch (error) {
-    console.error("❌ Error in deleteProduct:", error);
+    console.error("Error in deleteProduct:", error);
     res.status(500).json({ 
       message: "Internal Server Error",
       error: error.message 

@@ -7,31 +7,33 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#1DB954", // spotify green
-          light: "#1ED760",
-          dark: "#1AA34A",
+          DEFAULT: "#FF6B1A", // saffron orange
+          light: "#FF8C42",
+          dark: "#E55A00",
         },
         background: {
-          DEFAULT: "#121212", // dark background
-          light: "#181818",
-          lighter: "#282828",
+          DEFAULT: "#0D1117", // deep navy dark
+          light: "#161B22",
+          lighter: "#21262D",
         },
         surface: {
-          DEFAULT: "#282828",
-          light: "#3E3E3E",
+          DEFAULT: "#21262D",
+          light: "#30363D",
         },
         text: {
-          primary: "#FFFFFF",
-          secondary: "#B3B3B3",
-          tertiary: "#6A6A6A",
+          primary: "#F0F6FC",
+          secondary: "#8B949E",
+          tertiary: "#484F58",
         },
         accent: {
-          DEFAULT: "#1DB954",
-          red: "#F44336",
-          yellow: "#FFC107",
+          DEFAULT: "#FF6B1A",
+          blue: "#1F6FEB",
+          red: "#F85149",
+          yellow: "#D29922",
+          green: "#3FB950",
         },
       },
     },
   },
   plugins: [],
-}
+}

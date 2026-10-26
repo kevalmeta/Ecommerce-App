@@ -40,7 +40,7 @@ const ProfileScreen = () => {
                   transition={200}
                 />
                 <View className="absolute -bottom-1 -right-1 bg-primary rounded-full size-7 items-center justify-center border-2 border-surface">
-                  <Ionicons name="checkmark" size={16} color="#121212" />
+                  <Ionicons name="checkmark" size={16} color="#0D1117" />
                 </View>
               </View>
 

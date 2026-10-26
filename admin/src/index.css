@@ -1,4 +1,50 @@
 @import "tailwindcss";
-@plugin "daisyui"{
-  themes: forest;
+
+@plugin "daisyui" {
+  themes: saffron --default;
 }
+
+@plugin "daisyui/theme" {
+  name: "saffron";
+  default: true;
+  prefersdark: true;
+
+  /* ─── Primary: Saffron Orange ─── */
+  --color-primary: oklch(0.65 0.22 38);
+  --color-primary-content: oklch(0.10 0.01 38);
+
+  /* ─── Secondary: Royal Indigo ─── */
+  --color-secondary: oklch(0.45 0.18 270);
+  --color-secondary-content: oklch(0.97 0.01 270);
+
+  /* ─── Accent: Golden Yellow ─── */
+  --color-accent: oklch(0.78 0.17 75);
+  --color-accent-content: oklch(0.15 0.02 75);
+
+  /* ─── Neutral ─── */
+  --color-neutral: oklch(0.28 0.03 250);
+  --color-neutral-content: oklch(0.92 0.01 250);
+
+  /* ─── Base / Backgrounds ─── */
+  --color-base-100: oklch(0.13 0.02 255);
+  --color-base-200: oklch(0.17 0.025 255);
+  --color-base-300: oklch(0.22 0.025 255);
+  --color-base-content: oklch(0.93 0.01 250);
+
+  /* ─── Status ─── */
+  --color-info:    oklch(0.62 0.18 230);
+  --color-success: oklch(0.65 0.20 140);
+  --color-warning: oklch(0.75 0.18 65);
+  --color-error:   oklch(0.60 0.24 25);
+
+  --color-info-content:    oklch(0.10 0.01 230);
+  --color-success-content: oklch(0.10 0.01 140);
+  --color-warning-content: oklch(0.10 0.01 65);
+  --color-error-content:   oklch(0.10 0.01 25);
+
+  /* ─── Radii ─── */
+  --radius-selector: 0.75rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+  --border: 1px;
+}

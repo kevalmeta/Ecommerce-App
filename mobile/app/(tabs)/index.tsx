@@ -83,7 +83,7 @@ const ShopScreen = () => {
                 onPress={()=>setSelectedCategory(category.name)}
                 className={`mr-3 rounded-2xl size-20 overflow-hidden items-center justify-center ${isSelected ?"bg-primary":"bg-surface"}`}>
                   {category.icon ?(
-                  <Ionicons name = {category.icon} size={36} color={isSelected ? "#121212":"#fff"} />
+                  <Ionicons name = {category.icon} size={36} color={isSelected ? "#0D1117":"#fff"} />
                   ) : (
                     <Image source = {category.image} className="size-12" resizeMode="contain" />
                   )}

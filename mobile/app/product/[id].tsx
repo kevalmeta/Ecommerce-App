@@ -78,7 +78,7 @@ const ProductDetailScreen = () => {
             <Ionicons
               name={isInWishlist(product._id) ? "heart" : "heart-outline"}
               size={24}
-              color={isInWishlist(product._id) ? "#121212" : "#FFFFFF"}
+              color={isInWishlist(product._id) ? "#0D1117" : "#FFFFFF"}
             />
           )}
         </TouchableOpacity>
@@ -134,7 +134,7 @@ const ProductDetailScreen = () => {
           {/* Rating & Reviews */}
           <View className="flex-row items-center mb-4">
             <View className="flex-row items-center bg-surface px-3 py-2 rounded-full">
-              <Ionicons name="star" size={16} color="#FFC107" />
+              <Ionicons name="star" size={16} color="#D29922" />
               <Text className="text-text-primary font-bold ml-1 mr-2">
                 {rating.toFixed(1)}
               </Text>
@@ -157,7 +157,7 @@ const ProductDetailScreen = () => {
 
           {/* Price */}
           <View className="flex-row items-center mb-6">
-            <Text className="text-primary text-4xl font-bold">${price.toFixed(2)}</Text>
+            <Text className="text-primary text-4xl font-bold">₹{price.toFixed(2)}</Text>
           </View>
 
           {/* Quantity */}
@@ -185,7 +185,7 @@ const ProductDetailScreen = () => {
                 <Ionicons
                   name="add"
                   size={24}
-                  color={!inStock || quantity >= product.stock ? "#666" : "#121212"}
+                  color={!inStock || quantity >= product.stock ? "#666" : "#0D1117"}
                 />
               </TouchableOpacity>
             </View>
@@ -209,7 +209,7 @@ const ProductDetailScreen = () => {
           <View className="flex-1">
             <Text className="text-text-secondary text-sm mb-1">Total Price</Text>
             <Text className="text-primary text-2xl font-bold">
-              ${(price * quantity).toFixed(2)}
+              ₹{(price * quantity).toFixed(2)}
             </Text>
           </View>
           <TouchableOpacity
@@ -220,10 +220,10 @@ const ProductDetailScreen = () => {
             disabled={!inStock || isAddingToCart}
           >
             {isAddingToCart ? (
-              <ActivityIndicator size="small" color="#121212" />
+              <ActivityIndicator size="small" color="#0D1117" />
             ) : (
               <>
-                <Ionicons name="cart" size={24} color={!inStock ? "#666" : "#121212"} />
+                <Ionicons name="cart" size={24} color={!inStock ? "#666" : "#0D1117"} />
                 <Text
                   className={`font-bold ml-2 ${!inStock ? "text-text-secondary" : "text-background"
                     }`}
@@ -265,7 +265,7 @@ function LoadingUI() {
   return (
     <SafeScreen>
       <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#1DB954" />
+        <ActivityIndicator size="large" color="#FF6B1A" />
         <Text className="text-text-secondary mt-4">Loading product...</Text>
       </View>
     </SafeScreen>

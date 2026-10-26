@@ -173,7 +173,7 @@ const AddressFormModal = ({
                 disabled={isAddingAddress || isUpdatingAddress}
               >
                 {isAddingAddress || isUpdatingAddress ? (
-                  <ActivityIndicator size="small" color="#121212" />
+                  <ActivityIndicator size="small" color="#0D1117" />
                 ) : (
                   <Text className="text-background font-bold text-lg">
                     {isEditing ? "Save Changes" : "Add Address"}

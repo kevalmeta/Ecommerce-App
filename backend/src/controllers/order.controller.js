@@ -12,7 +12,6 @@ export async function createOrder(req, res) {
     }
 
     //validate product availability and stock here
-    //✅
     for(const item of orderItems) {
       const product = await Product.findById(item.product._id);
       if(!product) {
@@ -50,7 +49,7 @@ export async function getUserOrders(req, res) {
       const orders = await Order.find({clerkId:req.user.clerkId}).populate("orderItems.product")
     .sort({ createdAt: -1 });
 
-     console.log("📦 First order data:", JSON.stringify(orders[0], null, 2));
+     console.log("First order data:", JSON.stringify(orders[0], null, 2));
     //check if each order has been reviewed
 
     const orderIds = orders.map(order => order._id);

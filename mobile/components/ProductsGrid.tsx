@@ -78,7 +78,7 @@ const ProductsGrid = ({ products, isLoading, isError }: ProductsGridProps) => {
         </Text>
 
         <View className="flex-row items-center mb-2">
-          <Ionicons name="star" size={12} color="#FFC107" />
+          <Ionicons name="star" size={12} color="#D29922" />
           <Text className="text-text-primary text-xs font-semibold ml-1">
             {product.averageRating.toFixed(1)}
           </Text>
@@ -86,7 +86,7 @@ const ProductsGrid = ({ products, isLoading, isError }: ProductsGridProps) => {
         </View>
 
         <View className="flex-row items-center justify-between">
-          <Text className="text-primary font-bold text-lg">${product.price.toFixed(2)}</Text>
+          <Text className="text-primary font-bold text-lg">₹{product.price.toFixed(2)}</Text>
 
           <TouchableOpacity
             className="bg-primary rounded-full w-8 h-8 items-center justify-center"
@@ -95,9 +95,9 @@ const ProductsGrid = ({ products, isLoading, isError }: ProductsGridProps) => {
             disabled={isAddingToCart}
           >
             {isAddingToCart ? (
-              <ActivityIndicator size="small" color="#121212" />
+              <ActivityIndicator size="small" color="#0D1117" />
             ) : (
-              <Ionicons name="add" size={18} color="#121212" />
+              <Ionicons name="add" size={18} color="#0D1117" />
             )}
           </TouchableOpacity>
         </View>
@@ -108,7 +108,7 @@ const ProductsGrid = ({ products, isLoading, isError }: ProductsGridProps) => {
   if (isLoading) {
     return (
       <View className="py-20 items-center justify-center">
-        <ActivityIndicator size="large" color="#00D9FF" />
+        <ActivityIndicator size="large" color="#FF6B1A" />
         <Text className="text-text-secondary mt-4">Loading products...</Text>
       </View>
     );

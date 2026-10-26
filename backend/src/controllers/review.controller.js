@@ -56,7 +56,7 @@ export async function createReview(req, res) {
 
 
     //update the product rating with atomic aggregation
-    const reviews = await Review.find({ productId: productId });  // ✅ Correct
+    const reviews = await Review.find({ productId: productId }); 
     const totalRatings = reviews.reduce((sum, rev) => sum + rev.rating, 0);
     const updatedProduct = await Product.findByIdAndUpdate(
       productId,
@@ -79,7 +79,7 @@ export async function createReview(req, res) {
     console.error("Error in createReview controller:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-}
+} 
 
 export async function deleteReview(req, res) {
   try {
@@ -90,15 +90,15 @@ export async function deleteReview(req, res) {
     if (!review) {
       return res.status(404).json({ error: "Review not found" });
     }
-    if (review.userId.toString() !== user._id.toString()) {  // ✅ Correct
+    if (review.userId.toString() !== user._id.toString()) {  
       return res
         .status(403)
         .json({ error: "You are not authorized to delete this review" });
     }
-    const productId = review.productId;  // ✅ Correct
+    const productId = review.productId;  
     await Review.findByIdAndDelete(reviewId);
 
-    const reviews = await Review.find({ productId: productId });  // ✅ Correct
+    const reviews = await Review.find({ productId: productId }); 
     const totalRatings = reviews.reduce((sum, rev) => sum + rev.rating, 0);
     const product = await Product.findByIdAndUpdate(productId, {
       averageRating: reviews.length > 0 ? totalRatings / reviews.length : 0,

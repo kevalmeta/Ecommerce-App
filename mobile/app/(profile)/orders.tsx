@@ -144,14 +144,14 @@ function OrdersScreen() {
                     <View>
                       <Text className="text-text-secondary text-xs mb-1">{totalItems} items</Text>
                       <Text className="text-primary font-bold text-xl">
-                        ${order.totalPrice.toFixed(2)}
+                        ₹{order.totalPrice.toFixed(2)}
                       </Text>
                     </View>
 
                     {order.status === "delivered" &&
                       (order.hasReviewed ? (
                         <View className="bg-primary/20 px-5 py-3 rounded-full flex-row items-center">
-                          <Ionicons name="checkmark-circle" size={18} color="#1DB954" />
+                          <Ionicons name="checkmark-circle" size={18} color="#FF6B1A" />
                           <Text className="text-primary font-bold text-sm ml-2">Reviewed</Text>
                         </View>
                       ) : (
@@ -160,7 +160,7 @@ function OrdersScreen() {
                           activeOpacity={0.7}
                           onPress={() => handleOpenRating(order)}
                         >
-                          <Ionicons name="star" size={18} color="#121212" />
+                          <Ionicons name="star" size={18} color="#0D1117" />
                           <Text className="text-background font-bold text-sm ml-2">
                             Leave Rating
                           </Text>
@@ -193,7 +193,7 @@ export default OrdersScreen;
 function LoadingUI() {
   return (
     <View className="flex-1 items-center justify-center">
-      <ActivityIndicator size="large" color="#00D9FF" />
+      <ActivityIndicator size="large" color="#FF6B1A" />
       <Text className="text-text-secondary mt-4">Loading orders...</Text>
     </View>
   );

@@ -2,7 +2,7 @@ import { Redirect, Tabs } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@clerk/clerk-expo';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {BlurView} from 'expo-blur';
+import { BlurView } from 'expo-blur';
 const TabLayout = () => {
   const { isSignedIn, isLoaded } = useAuth();
   const insets = useSafeAreaInsets();
@@ -11,29 +11,29 @@ const TabLayout = () => {
   if (!isSignedIn) return <Redirect href={"/(auth)"} />;
   return (
     <Tabs
-      screenOptions={{ 
-        tabBarActiveTintColor: "#1DB954",
-        tabBarInactiveTintColor:"#B3B3B3",
-        tabBarStyle:{
-          position:"absolute",
-          backgroundColor:"black",
-          borderTopWidth:0,
-          height:50+insets.bottom,
-          paddingTop:4,
-          marginHorizontal:100,
-          marginBottom:insets.bottom,
-          borderRadius:24,
-          overflow:"hidden"
+      screenOptions={{
+        tabBarActiveTintColor: "#FF6B1A",
+        tabBarInactiveTintColor: "#8B949E",
+        tabBarStyle: {
+          position: "absolute",
+          backgroundColor: "#0D1117",
+          borderTopWidth: 0,
+          height: 50 + insets.bottom,
+          paddingTop: 4,
+          marginHorizontal: 100,
+          marginBottom: insets.bottom,
+          borderRadius: 24,
+          overflow: "hidden"
         },
-        tabBarBackground:()=> {
-            <BlurView intensity={80} tint='dark' style={{position:"absolute", top:0, left:0, right:0, bottom:0}} />
+        tabBarBackground: () => (
+          <BlurView intensity={80} tint='dark' style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }} />
+        ),
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: "bold"
         },
-        tabBarLabelStyle:{
-          fontSize:12,
-          fontWeight:"bold"
-        },
-        headerShown:false
-        }}>
+        headerShown: false
+      }}>
       <Tabs.Screen
         name='index'
         options={{

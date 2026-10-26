@@ -167,7 +167,7 @@ function AddressesScreen() {
               onPress={handleAddAddress}
             >
               <View className="flex-row items-center">
-                <Ionicons name="add-circle-outline" size={24} color="#121212" />
+                <Ionicons name="add-circle-outline" size={24} color="#0D1117" />
                 <Text className="text-background font-bold text-base ml-2">Add New Address</Text>
               </View>
             </TouchableOpacity>
@@ -212,7 +212,7 @@ function LoadingUI() {
     <SafeScreen>
       <AddressesHeader />
       <View className="flex-1 items-center justify-center px-6">
-        <ActivityIndicator size="large" color="#00D9FF" />
+        <ActivityIndicator size="large" color="#FF6B1A" />
         <Text className="text-text-secondary mt-4">Loading addresses...</Text>
       </View>
     </SafeScreen>

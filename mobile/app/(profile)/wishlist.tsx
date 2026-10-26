@@ -96,7 +96,7 @@ function WishlistScreen() {
                       {item.name}
                     </Text>
                     <Text className="text-primary font-bold text-xl mb-2">
-                      ${item.price.toFixed(2)}
+                      ₹{item.price.toFixed(2)}
                     </Text>
 
                     {item.stock > 0 ? (
@@ -132,7 +132,7 @@ function WishlistScreen() {
                       disabled={isAddingToCart}
                     >
                       {isAddingToCart ? (
-                        <ActivityIndicator size="small" color="#121212" />
+                        <ActivityIndicator size="small" color="#0D1117" />
                       ) : (
                         <Text className="text-background font-bold">Add to Cart</Text>
                       )}
@@ -159,7 +159,7 @@ function LoadingUI() {
         <Text className="text-text-primary text-2xl font-bold">Wishlist</Text>
       </View>
       <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#00D9FF" />
+        <ActivityIndicator size="large" color="#FF6B1A" />
         <Text className="text-text-secondary mt-4">Loading wishlist...</Text>
       </View>
     </SafeScreen>

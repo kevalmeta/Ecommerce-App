@@ -65,7 +65,7 @@ export async function createPaymentIntent(req, res) {
         },
       });
 
-      // add the stripe customer ID to the  user object in the DB
+      // add the stripe customer ID to the user object in the DB
       await User.findByIdAndUpdate(user._id, { stripeCustomerId: customer.id });
     }
 
