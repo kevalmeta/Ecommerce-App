@@ -19,7 +19,7 @@
     "@stripe/stripe-react-native": "^0.57.0",
     "@tanstack/react-query": "^5.90.17",
     "axios": "^1.13.2",
-    "expo": "~54.0.31",
+    "expo": "~54.0.37",
     "expo-auth-session": "~7.0.10",
     "expo-blur": "~15.0.8",
     "expo-constants": "~18.0.13",
